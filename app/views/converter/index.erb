@@ -28,7 +28,7 @@
   <div class="row">
     <div class="col-md-4 order-md-2 mb-4">
       <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-muted">Курс для USD</span>
+        <span class="text-muted">КУРС ГРИВНІ ДО ВАЛЮТ</span>
         <span class="badge badge-secondary badge-pill">3</span>
       </h4>
       <ul class="list-group mb-3">
@@ -80,51 +80,58 @@
       <form class="needs-validation" novalidate>
         <div class="row">
           <div class="col-md-6 mb-3">
-            <label for="zip">Отримую</label>
-            <input type="number" class="form-control" id="zip" placeholder="" required>
+            <label for="input_sum">Отримую</label>
+            <input type="number" class="form-control" id="input_sum" placeholder="" required>
             <div class="invalid-feedback">
-              Zip code required.
+              Currency required.
             </div>
           </div>
           <div class="col-md-6 mb-3">
-            <label for="country">Валюта</label>
-            <select class="custom-select d-block w-100" id="country" required>
+            <label for="from_currency">Валюта</label>
+            <select class="custom-select d-block w-100" id="from_currency" required>
               <% @currencies.each do |curr| %>
-                <option value="<%= curr._id %>"><%= "#{curr.symbol}   #{curr.api_id} - #{curr.name}" %></option>
+                <option value="<%= curr._id %>" data-symbol="<%= curr.api_id %>"><%= "#{curr.symbol}   #{curr.api_id} - #{curr.name}" %></option>
               <% end %>
             </select>
             <div class="invalid-feedback">
-              Please select a valid country.
+              Please select a valid currency.
             </div>
           </div>
         </div>
         <div class="row">
-          <button type="button" id="convert-button" class="btn btn-danger btn-block">=</button>
+          <div class="col-md-6 mb-3">
+          </div>
+          <div class="col-md-4 mb-3">
+            <button type="button" id="convert-button" class="btn btn-danger btn-block">=</button>
+          </div>
+          <div class="clo-md-2 md-3">
+            <button type="button" id="exchange-button" class="btn btn-info btn-block">⇳</button>
+          </div>
         </div>
 
         <div class="row">
           <div class="col-md-6 mb-3">
-            <label for="zip">Отримую</label>
-            <input type="number" class="form-control" id="zip" placeholder="" required>
+            <label for="output_sum">Отримую</label>
+            <input type="text" class="form-control" id="output_sum" placeholder="">
             <div class="invalid-feedback">
-              Zip code required.
+              Sum required.
             </div>
           </div>
           <div class="col-md-6 mb-3">
-            <label for="country">Валюта</label>
-            <select class="custom-select d-block w-100" id="country" required>
+            <label for="to_currency">Валюта</label>
+            <select class="custom-select d-block w-100" id="to_currency" required>
               <% @currencies.each do |curr| %>
-                <option value="<%= curr._id %>"><%= "#{curr.symbol}   #{curr.api_id} - #{curr.name}" %></option>
+                <option value="<%= curr._id %>" data-symbol="<%= curr.api_id %>"><%= "#{curr.symbol}   #{curr.api_id} - #{curr.name}" %></option>
               <% end %>
             </select>
             <div class="invalid-feedback">
-              Please select a valid country.
+              Please select a valid currency.
             </div>
           </div>
 
         </div>
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Convert</button>
+        <button class="btn btn-primary btn-lg btn-block" id="update-base-rates" type="submit">Update Rates</button>
       </form>
     </div>
   </div>
@@ -142,7 +149,7 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="/js/main.js"></script>
+<script src="/js/vendor/converter.js"></script>
 <script src="/js/vendor/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="/js/vendor/jquery-slim.min.js"><\/script>')</script>

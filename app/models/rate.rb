@@ -2,7 +2,9 @@ class Rate
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :list, type: Object
-  belongs_to :currency
+  field :symbol, type: Object
+  field :coefficient, type: Float
+
+  belongs_to :currency, inverse_of: :currency
 
 end

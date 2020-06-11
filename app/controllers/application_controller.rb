@@ -2,7 +2,6 @@ class ApplicationController < Sinatra::Base
   configure do
     set :views, "app/views"
     set :public_dir, "public"
-    set :public_folder, File.dirname(__FILE__) + '/static'
   end
 
   get '/' do
@@ -26,7 +25,7 @@ class ApplicationController < Sinatra::Base
 
   post '/convert' do
     @result = ConverterService.new(params).retrieve
-    json :data => @result
+    json :data => {result_sum: @result}
   end
 
 end

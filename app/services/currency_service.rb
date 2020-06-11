@@ -9,6 +9,10 @@ class CurrencyService
 
   end
 
+  def get_calculated_rates_by_currency(currency)
+
+  end
+
   def seeds
     uri = URI.parse(URI.encode(LIST_CURRENCIES_API_URL))
     api_response = Net::HTTP.get(uri)
@@ -32,7 +36,6 @@ class CurrencyService
     end
   end
 
-
   private
 
   def create(params)
@@ -41,7 +44,10 @@ class CurrencyService
 
   def create_rates(obj, response)
     data = JSON.parse(response)
-    obj.rates.create(list: data["rates"]) unless data["error"].present?
+    if !data["error"].present?
+      insert_data = data["rates"].map{|item| {symbol: item.first, coefficient: item.last}}
+      obj.rates.create(insert_data)
+    end
   end
 
 end

@@ -10,6 +10,7 @@ class ConverterService
   def retrieve
     begin
       base_currency
+      rate
       calculate
     rescue StandardError => e
       puts "#{e.full_message}"
@@ -23,12 +24,11 @@ class ConverterService
   end
 
   def rate
-    rates = JSON.parse(base_currency.rates)
-    rates[@to]
+    base_currency.rates.where(symbol: @to).first
   end
 
   def calculate
-    (@sum * rate).to_f
+    (@sum.to_f * rate.coefficient).round(2)
   end
 
 end

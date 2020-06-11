@@ -6,6 +6,6 @@ class Currency
   field :name, type: String
   field :symbol, type: String
 
-  has_many :rates
+  has_many :rates, dependent: :destroy
 
 end
