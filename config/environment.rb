@@ -3,7 +3,7 @@ ENV['RACK_ENV'] ||= "development"
 
 require 'bundler/setup'
 require 'sinatra'
-require 'pry'
+#require 'pry'
 require 'sinatra/json'
 require 'mongoid'
 
