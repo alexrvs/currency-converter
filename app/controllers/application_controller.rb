@@ -6,17 +6,20 @@ class ApplicationController < Sinatra::Base
 
   get '/currency/converter' do
     @currencies = Currency.includes(:rates).select{|c| c.rates.present?}
+    @info =  CurrencyService.new.info
     erb :'converter/index'
   end
 
-  get '/currency/update' do
-    CurrencyService.new.process!
+  get '/currency/rates/create' do
+    creator = RateCreatorService.new
+    CurrencyService.new(creator).process!
     json :data => {result: :ok}
   end
 
-  get '/seeds' do
-    @seeds = CurrencyService.new.seeds
-    json :data => @seeds
+  get '/currency/rates/update' do
+    updater = RateUpdaterService.new
+    CurrencyService.new(updater).process!
+    json :data => {result: :ok}
   end
 
   post '/convert' do

@@ -1,6 +1,7 @@
 let params = null
 let element_button = document.getElementById('convert-button');
 let exchange_button = document.getElementById('exchange-button');
+let update_rates_button = document.getElementById('update-base-rates');
 
 element_button.addEventListener("click", function(e) {
   params = prepareParams();
@@ -13,6 +14,38 @@ exchange_button.addEventListener("click", function(e) {
   sendRequest(params);
 }, false);
 
+update_rates_button.addEventListener("click", function(e) {
+  const request = new XMLHttpRequest();
+  const url = "/currency/rates/update";
+
+  request.responseType =	"json";
+  request.open("GET", url, true);
+  request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  request.addEventListener("readystatechange", () => {
+    if (request.readyState === 4 && request.status === 200) {
+      let obj = request.response;
+      responseModify(obj);
+    }
+  });
+  request.send(params);
+}, false);
+
+
+
+
+
+function prepareParams(){
+  let from = null;
+  let to = null;
+  let sum = null;
+  let params = null;
+  from = document.getElementById('from_currency').value;
+  to = getCurrencySymbol(document.getElementById('to_currency'));
+  sum = document.getElementById('input_sum').value;
+  params = "from=" + from+ "&to=" + to + "&sum="+ sum;
+  return params
+}
 
 function sendRequest(params){
   const request = new XMLHttpRequest();
@@ -29,19 +62,6 @@ function sendRequest(params){
     }
   });
   request.send(params);
-}
-
-
-function prepareParams(){
-  let from = null;
-  let to = null;
-  let sum = null;
-  let params = null;
-  from = document.getElementById('from_currency').value;
-  to = getCurrencySymbol(document.getElementById('to_currency'));
-  sum = document.getElementById('input_sum').value;
-  params = "from=" + from+ "&to=" + to + "&sum="+ sum;
-  return params
 }
 
 function getCurrencySymbol(obj) {

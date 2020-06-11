@@ -2,16 +2,20 @@ require 'json'
 require 'net/http'
 
 class CurrencyService
+  attr_reader :service
 
   LIST_CURRENCIES_API_URL = 'https://free.currconv.com/api/v7/currencies?apiKey=do-not-use-this-key'.freeze
   LATEST_RATES_API_URL = 'https://api.exchangeratesapi.io/latest'.freeze
 
-  def initialize
-
+  def initialize(service=nil)
+    @service = service
   end
 
-  def get_calculated_rates_by_currency(currency)
-
+  def info
+    usd_currency = Currency.where(api_id: "USD").first
+    usd_currency.rates.map do |r|
+      {symbol: r.symbol, sum: ConverterService.new({from: usd_currency._id,to: r.symbol, sum: 1}).retrieve}
+    end
   end
 
   def seeds
@@ -30,7 +34,7 @@ class CurrencyService
         uri.query = [uri.query, "base=#{currency.api_id}"].compact.join('&')
         uri = URI.parse(uri.to_s)
         api_response = Net::HTTP.get(uri)
-        create_rates(currency, api_response) if api_response.present?
+        @service.process(currency, api_response) if api_response.present?
       rescue Exception => e
         next
       end
@@ -41,14 +45,6 @@ class CurrencyService
 
   def create(params)
     Currency.create(api_id: params["id"], name: params["currencyName"], symbol: params["currencySymbol"])
-  end
-
-  def create_rates(obj, response)
-    data = JSON.parse(response)
-    if !data["error"].present?
-      insert_data = data["rates"].map{|item| {symbol: item.first, coefficient: item.last}}
-      obj.rates.create(insert_data)
-    end
   end
 
 end
