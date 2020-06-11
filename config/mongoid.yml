@@ -7,14 +7,14 @@ development:
       options:
         server_selection_timeout: 1
 test:
-  sessions:
+  clients:
     default:
       database: currency_converter_test
       hosts:
         - localhost:27017
 
 production:
-  sessions:
+  clients:
     default:
       uri: <%= ENV['MONGODB_URI'] %>
       options:
