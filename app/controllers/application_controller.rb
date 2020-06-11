@@ -4,7 +4,11 @@ class ApplicationController < Sinatra::Base
     set :public_dir, "public"
   end
 
-  get '/currency/converter' do
+  get '/test' do
+    'RSpec Test'
+  end
+
+  get '/' do
     @currencies = Currency.includes(:rates).select{|c| c.rates.present?}
     @info =  CurrencyService.new.info
     erb :'converter/index'

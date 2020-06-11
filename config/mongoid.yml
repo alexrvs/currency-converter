@@ -9,7 +9,7 @@ development:
 test:
   clients:
     default:
-      database: currency_converter_test
+      database: currency_converter_development
       hosts:
         - localhost:27017
 

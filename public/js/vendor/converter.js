@@ -31,10 +31,6 @@ update_rates_button.addEventListener("click", function(e) {
   request.send(params);
 }, false);
 
-
-
-
-
 function prepareParams(){
   let from = null;
   let to = null;
@@ -73,7 +69,6 @@ function responseModify(obj) {
 }
 
 function toSwapCurrencies(){
-  console.log('sad');
   from = document.getElementById('from_currency').value
   to = document.getElementById('to_currency').value
   selectSwapping('from_currency', to)
