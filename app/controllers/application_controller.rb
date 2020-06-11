@@ -4,10 +4,6 @@ class ApplicationController < Sinatra::Base
     set :public_dir, "public"
   end
 
-  get '/' do
-    "Hello from Sinatra on Heroku!"
-  end
-
   get '/currency/converter' do
     @currencies = Currency.includes(:rates).select{|c| c.rates.present?}
     erb :'converter/index'
