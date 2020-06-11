@@ -1,8 +1,22 @@
 development:
   clients:
     default:
-      database: blog_development
+      database: currency_converter_development
       hosts:
         - localhost:27017
       options:
         server_selection_timeout: 1
+test:
+  sessions:
+    default:
+      database: currency_converter_test
+      hosts:
+        - localhost:27017
+
+production:
+  sessions:
+    default:
+      uri: <%= ENV['MONGODB_URI'] %>
+      options:
+        skip_version_check: true
+        safe: true
