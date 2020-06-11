@@ -1,25 +1,174 @@
 <!doctype html>
-
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="/img/favicon-32x32.webp">
 
-  <title>Currency Converter</title>
-  <meta name="description" content="Currency Converter">
-  <meta name="author" content="alexrvs">
-  <meta name="tags" content="bootstrap,heroku,sinatra,github">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ВАЛЮТНИЙ КАЛЬКУЛЯТОР ОНЛАЙН</title>
 
+  <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
   <link rel="stylesheet" href="/css/main.css">
+
+  <!-- Custom styles for this template -->
+  <link href="form-validation.css" rel="stylesheet">
 </head>
 
-<body>
-<h4>ВАЛЮТНИЙ КАЛЬКУЛЯТОР ОНЛАЙН</h4>
-<script src="js/main.js"></script>
+<body class="bg-light">
 
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>ВАЛЮТНИЙ КАЛЬКУЛЯТОР ОНЛАЙН</h2>
+    <div class="cc-intro"><h4>Конвертер валют: зручність, простота і функціональність в абсолюті!</h4><p>Пропонуємо Вашій увазі реінкарнацію добре відомого <a href="#" data-role="show-converter-old">конвертера валют</a>. Новий конвертер як і раніше простий у використанні, проте володіє низкою сучасних властивостей:</p><ol><li><span>Усі розрахунки здійснюються "на льоту". <i>Після зміни чисел або валют буде здійснено автоматичний перерахунок сум. </i></span></li><li><span>Заокруглення додає реалістичності розрахункам. <i>На нашому конвертері валют Ви не побачите неможливого результату, наприклад 0,0001 гривні! </i></span></li><li><span>Використовуйте також і зворотний розрахунок, вводячи суму в полі "ОТРИМУЮ" валютного калькулятора. <i>Так ви дізнаєтеся, скільки, наприклад, потрібно євро для отримання в підсумку 1000 доларів.</i></span></li></ol><p>Якщо у вас є питання або пропозиції щодо нашого калькулятора – <a href="https://forum.finance.ua/topic98280.html">напишіть нам</a>.</p></div>
+  </div>
 
+  <div class="row">
+    <div class="col-md-4 order-md-2 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">Курс для USD</span>
+        <span class="badge badge-secondary badge-pill">3</span>
+      </h4>
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+          <div>
+            <h6 class="my-0">Product name</h6>
+            <small class="text-muted">Brief description</small>
+          </div>
+          <span class="text-muted">$12</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+          <div>
+            <h6 class="my-0">Second product</h6>
+            <small class="text-muted">Brief description</small>
+          </div>
+          <span class="text-muted">$8</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+          <div>
+            <h6 class="my-0">Third item</h6>
+            <small class="text-muted">Brief description</small>
+          </div>
+          <span class="text-muted">$5</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between bg-light">
+          <div class="text-success">
+            <h6 class="my-0">Promo code</h6>
+            <small>EXAMPLECODE</small>
+          </div>
+          <span class="text-success">-$5</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Total (USD)</span>
+          <strong>$20</strong>
+        </li>
+      </ul>
 
+      <form class="card p-2">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Promo code">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-secondary">Redeem</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6 order-md-1">
+      <h4 class="mb-3">Конвертер валют</h4>
+      <form class="needs-validation" novalidate>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="zip">Отримую</label>
+            <input type="number" class="form-control" id="zip" placeholder="" required>
+            <div class="invalid-feedback">
+              Zip code required.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="country">Валюта</label>
+            <select class="custom-select d-block w-100" id="country" required>
+              <% @currencies.each do |curr| %>
+                <option value="<%= curr._id %>"><%= "#{curr.symbol}   #{curr.api_id} - #{curr.name}" %></option>
+              <% end %>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid country.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <button type="button" id="convert-button" class="btn btn-danger btn-block">=</button>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="zip">Отримую</label>
+            <input type="number" class="form-control" id="zip" placeholder="" required>
+            <div class="invalid-feedback">
+              Zip code required.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="country">Валюта</label>
+            <select class="custom-select d-block w-100" id="country" required>
+              <% @currencies.each do |curr| %>
+                <option value="<%= curr._id %>"><%= "#{curr.symbol}   #{curr.api_id} - #{curr.name}" %></option>
+              <% end %>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid country.
+            </div>
+          </div>
+
+        </div>
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Convert</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017-2020 WebSoft</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/js/main.js"></script>
+<script src="/js/vendor/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="/js/vendor/popper.min.js"></script>
+<!--<script src="/js/vendor/holder.min.js"></script>-->
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function() {
+    'use strict';
+
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
 </body>
-
 </html>

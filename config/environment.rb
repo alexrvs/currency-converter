@@ -10,4 +10,5 @@ require 'mongoid'
 Bundler.require(:default, ENV['SINATRA_ENV'])
 
 Dir.glob('./app/{controllers,models,services,views}/*.rb').each { |file| require file }
+
 Mongoid.load!(File.join(File.dirname(__FILE__), 'mongoid.yml'))

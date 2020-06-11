@@ -17,27 +17,31 @@ class CurrencyService
     seeds.each{|s| create(s)}
   end
 
+  def process!
+    currencies = Currency.all
+    currencies.each do |currency|
+      uri = URI.parse(LATEST_RATES_API_URL)
+      begin
+        uri.query = [uri.query, "base=#{currency.api_id}"].compact.join('&')
+        uri = URI.parse(uri.to_s)
+        api_response = Net::HTTP.get(uri)
+        create_rates(currency, api_response) if api_response.present?
+      rescue Exception => e
+        next
+      end
+    end
+  end
+
+
+  private
+
   def create(params)
     Currency.create(api_id: params["id"], name: params["currencyName"], symbol: params["currencySymbol"])
   end
 
-  def process!
-    currencies = Currency.all
-    uri = URI.parse(URI.encode(LATEST_RATES_API_URL))
-    currencies.each do |currency|
-      begin
-        uri.query = [uri.query, "base=#{currency.api_id}"].compact.join('&')
-        api_response = Net::HTTP.get(uri.to_s)
-        if api_response.present?
-          currency.rates.create(list: '')
-        else
-          false
-        end
-      rescue Exception => e
-        false
-      end
-    end
-
+  def create_rates(obj, response)
+    data = JSON.parse(response)
+    obj.rates.create(list: data["rates"]) unless data["error"].present?
   end
 
 end
