@@ -1,7 +1,18 @@
+Ruby
+```
+2.7.1
+```
+
+Run at local machine
+
+```
+rackup  cinfig.ru
+```
+
 Heroku
 
 ```
-https://currency-converter-rvs.herokuapp.com/currency/converter
+https://currency-converter-rvs.herokuapp.com/
 ```
 
 Mongo DB
