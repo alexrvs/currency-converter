@@ -5,6 +5,10 @@ class ApplicationController < Sinatra::Base
     set :public_folder, File.dirname(__FILE__) + '/static'
   end
 
+  get '/' do
+    "Hello from Sinatra on Heroku!"
+  end
+
   get '/currency/converter' do
     @currencies = Currency.includes(:rates).select{|c| c.rates.present?}
     erb :'converter/index'
